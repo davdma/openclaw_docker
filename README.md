@@ -135,3 +135,5 @@ Important points:
 ## Notes
 
 * Currently the sandboxed browser tool does not yet work due to a permissions bug in the `openclaw` codebase, you might get a `[tools] browser failed: {"error":"Navigation blocked: strict browser SSRF policy requires Playwright-backed redirect-hop inspection"}` error.
+* **Another bug is that the sandbox prebuilt image does not have `python3`** by default, leading to `[tools] edit failed: moltbot-sandbox-fs: 2: python3: not found` errors. See [github issue](https://github.com/openclaw/openclaw/issues/51099).
+  * The temporary workaround for this is in the github issue, but hopefully future updates will mitigate this.
