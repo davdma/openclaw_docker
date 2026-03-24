@@ -18,9 +18,9 @@ You will not need to worry about any agents mishandling the filesystem as the bl
 
 ## Instructions
 
-1. First, make sure Docker engine is properly installed. On macOS you may need to download Docker Desktop.
+1. First, make sure Docker engine is properly installed. On macOS you may need to download Docker Desktop. Check via `docker version`.
 2. Next, install openclaw using `npm i -g openclaw` and onboard with `openclaw onboard`. Provide API keys and add the channels you need.
-3. Set up the docker image for the agent only sandbox by running the `sandbox-setup.sh` script provided in the repo. It is an
+3. Build the docker image `openclaw-sandbox:bookworm-slim` for the agent only sandbox by running the `sandbox-setup.sh` script provided in the repo. It is an
 exact copy of `scripts/sandbox-setup.sh` from the `openclaw` repository. The reason it is provided here is so you can avoid needing to 
 `git clone` the entire `openclaw` repo (it is very bloated and you only need a few files in the repo for docker setup).
 4. Set up the sandboxed browser image as well by running `scripts/sandbox-browser-setup.sh`.
@@ -28,13 +28,6 @@ exact copy of `scripts/sandbox-setup.sh` from the `openclaw` repository. The rea
 ## `openclaw.json` Config
 
 The most important part of the set up is to have a properly configured `openclaw.json` config file to avoid gnarly bugs due to permissions.
-
-Important points:
-* Set any external folders you want the agent to be able to access within its sandbox in the `"binds": [...]` list. It should be in
-* Set `tools.fs.workspaceOnly` to `false` in order to allow the agent to access beyond `/workspace` to external mounts
-the format `"/path/to/folder:/source:rw"` (for more info see [custom bind mounts](https://docs.openclaw.ai/gateway/sandboxing#custom-bind-mounts))
-* External mount will not be accessible to agent if you do not give it the `exec` tool
-* Due to 
 
 Make sure the following config settings are all within your `openclaw.json` file. It should be **exactly as shown** except for API keys and file paths:
 ```
@@ -128,3 +121,15 @@ Make sure the following config settings are all within your `openclaw.json` file
   },
 }
 ```
+
+Important points:
+* Enable sandboxing with `mode: "all"` and `workspaceAccess: "rw"` to mount the agent workspace read/write into sandbox container. This allows the agent to have its own workspace inside the sandbox.
+* Set any external folders you want the agent to be able to access (e.g. Obsidian vault) within its sandbox in the `"binds": [...]` list. It should fit the format `"/path/to/folder:/source:rw"` (for more info see [custom bind mounts](https://docs.openclaw.ai/gateway/sandboxing#custom-bind-mounts))
+* Enable `docker.network: "bridge"` to allow network egress from the container for browser and web tools.
+* Make sure to have `sandbox.docker.dangerouslyAllowExternalBindSources: true` so that it allows you to mount outside just `/workspace`.
+* Set `tools.fs.workspaceOnly` to `false` in order to allow the agent to access beyond `/workspace` to external mounts. Same with `tools.exec.applyPatch.workspaceOnly`.
+* External mount will not be accessible to agent if you do not give it the `exec` tool.
+
+## Notes
+
+* Currently the sandboxed browser tool does not yet work due to a permissions bug in the `openclaw` codebase, you might get a `[tools] browser failed: {"error":"Navigation blocked: strict browser SSRF policy requires Playwright-backed redirect-hop inspection"}` error.
