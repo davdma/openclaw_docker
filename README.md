@@ -1,4 +1,4 @@
-# Setting Up OpenClaw
+# Setting Up OpenClaw + Docker
 The purpose of this repo is to help skip the frustrating experience of setting up OpenClaw when trying to use its secure Docker containerization
 features. For power users that want to have a reliable agent that can both run `exec` and filesystem tools and enable connection of
 OpenClaw with particular folders on the laptop such as an Obsidian vault, the best secure but powerful setup is to have a **non-sandboxed gateway + sandboxed agent**.
@@ -129,6 +129,7 @@ Important points:
 * Make sure to have `sandbox.docker.dangerouslyAllowExternalBindSources: true` so that it allows you to mount outside just `/workspace`.
 * Set `tools.fs.workspaceOnly` to `false` in order to allow the agent to access beyond `/workspace` to external mounts. Same with `tools.exec.applyPatch.workspaceOnly`.
 * External mount will not be accessible to agent if you do not give it the `exec` tool.
+* Make sure to specify the right tool permissions in `agents.list[]` and give `main` agent the necessary tools, otherwise sessions will not have `exec`, `read`, `write`, `web_search` etc.
 
 ## Notes
 
