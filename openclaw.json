@@ -1,0 +1,197 @@
+{
+  "browser": {
+    "ssrfPolicy": {
+      "dangerouslyAllowPrivateNetwork": true
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-sonnet-4-6"
+      },
+      "models": {
+        "anthropic/claude-sonnet-4-6": {}
+      },
+      "workspace": "/Users/username/.openclaw/workspace",
+      "sandbox": {
+        "mode": "all",
+        "workspaceAccess": "rw",
+        "docker": {
+          "network": "bridge",
+          "binds": [
+            "/Users/username/Desktop/folder/notes:/vault:rw"
+          ],
+          "dangerouslyAllowExternalBindSources": true
+        },
+        "browser": {
+          "enabled": true,
+          "binds": []
+        }
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "tools": {
+          "alsoAllow": [
+            "group:fs",
+            "group:web",
+            "browser",
+            "exec",
+            "bash"
+          ]
+        }
+      }
+    ]
+  },
+  "tools": {
+    "profile": "minimal",
+    "fs": {
+      "workspaceOnly": false
+    },
+    "exec": {
+      "applyPatch": {
+        "workspaceOnly": false
+      }
+    },
+    "allow": [
+      "group:fs",
+      "group:web",
+      "browser",
+      "web_search",
+      "web_fetch",
+      "exec",
+      "bash"
+    ],
+    "deny": [
+      "process",
+      "message"
+    ],
+    "web": {
+      "search": {
+        "enabled": true,
+        "provider": "brave",
+        "apiKey": "BRAVE_API_KEY"
+      }
+    },
+    "sandbox": {
+      "tools": {
+        "allow": [
+          "group:fs",
+          "group:web",
+          "browser",
+          "web_search",
+          "web_fetch",
+          "exec",
+          "bash"
+        ],
+        "deny": [
+          "process",
+          "message"
+        ]
+      }
+    }
+  },
+  "bindings": [
+    {
+      "agentId": "main",
+      "match": {
+        "channel": "feishu",
+        "accountId": "default"
+      }
+    }
+  ],
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "hooks": {
+    "internal": {
+      "enabled": true,
+      "entries": {
+        "command-logger": {
+          "enabled": true
+        },
+        "session-memory": {
+          "enabled": true
+        }
+      }
+    }
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "dmPolicy": "pairing",
+      "botToken": "BOT_TOKEN",
+      "groupPolicy": "allowlist",
+      "streaming": "partial"
+    },
+    "feishu": {
+      "enabled": true,
+      "appId": "APP_ID",
+      "appSecret": "APP_SECRET",
+      "connectionMode": "websocket",
+      "domain": "feishu",
+      "groupPolicy": "allowlist"
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "TOKEN"
+    },
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    },
+    "nodes": {
+      "denyCommands": [
+        "camera.snap",
+        "camera.clip",
+        "screen.record",
+        "contacts.add",
+        "calendar.add",
+        "reminders.add",
+        "sms.send"
+      ]
+    }
+  },
+  "skills": {
+    "install": {
+      "nodeManager": "npm"
+    }
+  },
+  "plugins": {
+    "entries": {
+      "telegram": {
+        "enabled": true
+      },
+      "feishu": {
+        "enabled": true
+      }
+    },
+    "installs": {
+      "feishu": {
+        "source": "npm",
+        "spec": "@openclaw/feishu",
+        "installPath": "/Users/username/.openclaw/extensions/feishu",
+        "version": "2026.3.13",
+        "resolvedName": "@openclaw/feishu",
+        "resolvedVersion": "2026.3.13",
+        "resolvedSpec": "@openclaw/feishu@2026.3.13",
+        "integrity": "...",
+        "shasum": "...",
+        "resolvedAt": "2026-03-23T10:57:58.441Z",
+        "installedAt": "2026-03-23T10:58:08.353Z"
+      }
+    }
+  }
+}
