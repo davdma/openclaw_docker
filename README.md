@@ -24,6 +24,7 @@ You will not need to worry about any agents mishandling the filesystem as the bl
 exact copy of `scripts/sandbox-setup.sh` from the `openclaw` repository. The reason it is provided here is so you can avoid needing to 
 `git clone` the entire `openclaw` repo (it is very bloated and you only need a few files in the repo for docker setup).
 4. Set up the sandboxed browser image as well by running `scripts/sandbox-browser-setup.sh`.
+5. Run `openclaw sandbox explain` to ensure that the sandbox is up and running.
 
 ## `openclaw.json` Config
 
